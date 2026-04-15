@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OpenDyslexic — A vs B</title>
+<style>
+  @font-face { font-family: "OD-A"; src: url("fonts/A-Regular.ttf");    font-weight: 400; font-style: normal; }
+  @font-face { font-family: "OD-A"; src: url("fonts/A-Italic.ttf");     font-weight: 400; font-style: italic; }
+  @font-face { font-family: "OD-A"; src: url("fonts/A-Bold.ttf");       font-weight: 700; font-style: normal; }
+  @font-face { font-family: "OD-A"; src: url("fonts/A-BoldItalic.ttf"); font-weight: 700; font-style: italic; }
+  @font-face { font-family: "OD-B"; src: url("fonts/B-Regular.ttf");    font-weight: 400; font-style: normal; }
+  @font-face { font-family: "OD-B"; src: url("fonts/B-Italic.ttf");     font-weight: 400; font-style: italic; }
+  @font-face { font-family: "OD-B"; src: url("fonts/B-BoldItalic.ttf"); font-weight: 700; font-style: italic; }
+  @font-face { font-family: "OD-C"; src: url("fonts/C-Regular.ttf");    font-weight: 400; font-style: normal; }
+  @font-face { font-family: "OD-C"; src: url("fonts/A-Italic.ttf");     font-weight: 400; font-style: italic; }
+  @font-face { font-family: "OD-C"; src: url("fonts/A-Bold.ttf");       font-weight: 700; font-style: normal; }
+  @font-face { font-family: "OD-C"; src: url("fonts/A-BoldItalic.ttf"); font-weight: 700; font-style: italic; }
+  @font-face { font-family: "OD-Neo"; src: url("fonts/Neo-Regular.ttf");    font-weight: 400; font-style: normal; }
+  @font-face { font-family: "OD-Neo"; src: url("fonts/Neo-Italic.ttf");     font-weight: 400; font-style: italic; }
+  @font-face { font-family: "OD-Neo"; src: url("fonts/Neo-Bold.ttf");       font-weight: 700; font-style: normal; }
+  @font-face { font-family: "OD-Neo"; src: url("fonts/Neo-BoldItalic.ttf"); font-weight: 700; font-style: italic; }
+  @font-face { font-family: "OD-NeoT"; src: url("fonts/NeoT-Regular.ttf");    font-weight: 400; font-style: normal; }
+  @font-face { font-family: "OD-NeoT"; src: url("fonts/NeoT-Italic.ttf");     font-weight: 400; font-style: italic; }
+  @font-face { font-family: "OD-NeoT"; src: url("fonts/NeoT-Bold.ttf");       font-weight: 700; font-style: normal; }
+  @font-face { font-family: "OD-NeoT"; src: url("fonts/NeoT-BoldItalic.ttf"); font-weight: 700; font-style: italic; }
+  @font-face { font-family: "OD-T"; src: url("fonts/T-Regular.ttf"); font-weight: 400; font-style: normal; }
+
+  :root {
+    --paper: #f4ecd8;
+    --ink: #2b2a27;
+    --muted: #6b6152;
+    --accent: #8a5a3b;
+    --shadow: 0 6px 30px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.12);
+  }
+  html, body { margin: 0; padding: 0; background: #2a2622; color: var(--ink); }
+  body { font-family: system-ui, sans-serif; min-height: 100vh; }
+
+  .toolbar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; flex-direction: column; gap: 8px; align-items: center;
+    padding: 10px 14px; background: rgba(20,18,16,.92); color: #e8dfcd;
+    border-bottom: 1px solid #000; backdrop-filter: blur(6px);
+  }
+  .toolbar-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: center; }
+  .toolbar button, .toolbar label {
+    font: 500 13px/1.2 system-ui, sans-serif;
+    background: #3a342d; color: #e8dfcd; border: 1px solid #554c40;
+    padding: 6px 12px; border-radius: 6px; cursor: pointer;
+  }
+  .toolbar button.active { background: #8a5a3b; border-color: #b57a55; color: #fff; }
+  .toolbar .sep { width: 1px; background: #554c40; height: 22px; }
+  .toolbar input[type=range] { width: 140px; }
+  .kbd { font: 12px ui-monospace, monospace; opacity: .65; margin-left: 4px; }
+
+  .reader {
+    max-width: 720px; margin: 40px auto; padding: 64px 72px;
+    background: var(--paper); border-radius: 2px; box-shadow: var(--shadow);
+    min-height: calc(100vh - 160px);
+    font-family: "OD-A", sans-serif;
+    font-size: 20px; line-height: 1.55;
+    font-feature-settings: "kern" 1; text-rendering: optimizeLegibility;
+  }
+  .reader.B { font-family: "OD-B", sans-serif; }
+  .reader.C { font-family: "OD-C", sans-serif; }
+  .reader.Neo { font-family: "OD-Neo", sans-serif; }
+  .reader.NeoT { font-family: "OD-NeoT", sans-serif; }
+  .reader.T { font-family: "OD-T", sans-serif; }
+
+  .chapter-num { font-size: 12px; letter-spacing: .25em; color: var(--muted); text-transform: uppercase; }
+  h1 { font-size: 32px; margin: 6px 0 28px; font-weight: 700; line-height: 1.15; }
+  h2 { font-size: 22px; margin: 32px 0 12px; font-weight: 700; }
+  p { margin: 0 0 1em; text-align: left; hyphens: auto; }
+  .reader.justify p { text-align: justify; }
+  .reader.body-italic p     { font-style: italic; }
+  .reader.body-bold p       { font-weight: 700; }
+  .reader.body-bolditalic p { font-style: italic; font-weight: 700; }
+  p.lead::first-letter { font-size: 3.2em; float: left; line-height: .9; padding: 4px 8px 0 0; font-weight: 700; color: var(--accent); }
+  em { font-style: italic; }
+  strong { font-weight: 700; }
+  blockquote { margin: 1.2em 0; padding: 0 1.2em; border-left: 3px solid var(--accent); color: #4a463e; font-style: italic; }
+  .footer-meta { margin-top: 48px; color: var(--muted); font-size: 13px; text-align: center; border-top: 1px solid #d8cfb8; padding-top: 16px; }
+  .pair-test { font-size: 28px; line-height: 1.5; letter-spacing: 0; }
+  .pair-test span { display: inline-block; margin: 0 14px 8px 0; }
+
+  .kern-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 28px; margin-top: 18px; }
+  .kern-group { border-top: 1px solid #d8cfb8; padding-top: 10px; }
+  .kern-label { font: 500 11px/1.4 system-ui, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .kern-row { font-size: 22px; line-height: 1.45; }
+
+  .meta-pill { font: 11px ui-monospace, monospace; color: #c9bfa8; padding: 3px 8px; background: #3a342d; border-radius: 10px; border: 1px solid #554c40; }
+
+  .description {
+    max-width: 760px; margin: 20px auto 0; padding: 14px 20px;
+    background: #1f1c19; color: #d6ccb6; border: 1px solid #3a342d;
+    border-radius: 6px; font: 14px/1.55 system-ui, sans-serif;
+  }
+  .description h3 { margin: 0 0 4px; font-size: 15px; color: #f0e8d4; }
+  .description .sub { color: #8f8470; font-size: 12px; margin-bottom: 8px; font-family: ui-monospace, monospace; }
+  .description p { margin: 0; }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-row">
+    <button id="btnA" class="active">OpenDyslexic A<span class="kbd">[1]</span></button>
+    <button id="btnB">OpenDyslexic B<span class="kbd">[2]</span></button>
+    <button id="btnC">OpenDyslexic C<span class="kbd">[3]</span></button>
+    <button id="btnNeo">OpenDyslexic Neo<span class="kbd">[4]</span></button>
+    <button id="btnNeoT">OpenDyslexic Neo T<span class="kbd">[5]</span></button>
+    <button id="btnT">OpenDyslexic T<span class="kbd">[6]</span></button>
+  </div>
+  <div class="toolbar-row">
+    <label>size <input id="size" type="range" min="14" max="28" value="20"></label>
+    <label>line-height <input id="lh" type="range" min="120" max="200" value="155"></label>
+    <label><input id="justify" type="checkbox" checked> justify</label>
+    <label>body <select id="bodyStyle">
+      <option value="regular">Regular</option>
+      <option value="italic">Italic</option>
+      <option value="bold">Bold</option>
+      <option value="bolditalic">Bold Italic</option>
+    </select></label>
+    <div class="sep"></div>
+    <span class="meta-pill" id="pill">A · v0.99 · 1/2 GPOS pairs</span>
+    <span class="kbd" style="opacity:.55">space to toggle</span>
+  </div>
+</div>
+
+<div class="description" id="desc"></div>
+
+<article class="reader A" id="reader">
+  <div class="chapter-num">Chapter One</div>
+  <h1>The Type Tester and the Twilight Voyage</h1>
+
+  <p class="lead">Tomorrow, Tanya thought, would be the day she finally quit the typewriter factory. She walked between the rows of machines — AVATAR, TITAN, YETI — and wondered why the letterforms had always felt wrong. Too tight. Too eager to touch.</p>
+
+  <p>She had joined in the autumn of 1987, just before the Voyager probe slipped past Neptune. Back then, every keystroke was a small act of violence: the hammer, the ribbon, the page. Now, thirty-odd years on, the office hummed with laser printers and the old Adler No. 7 sat in the corner like a patient dog.</p>
+
+  <p>Her supervisor, Mr. Trevelyan, kept a cracked mug on his desk that read "The quick brown fox jumps over the lazy dog" — a pangram printed in a typeface so aggressively kerned that the fox appeared to be mounting the jumps. Tanya had once suggested, politely, that he replace it. He had not spoken to her for a week.</p>
+
+  <blockquote>"Type is a voice," he had told her on her first day, "and every voice needs to breathe. But some voices want to whisper into each other's ears."</blockquote>
+
+  <p>It was a Thursday. The rain came sideways across the car park. Tanya walked to her desk carrying a slim manuscript — Waves on the Water, by a poet named Yvette — and a resolve she had been building for months.</p>
+
+  <h2>A Test for Weary Eyes</h2>
+
+  <p>Consider the following pairs, each of which had caused her small, specific griefs over the years:</p>
+
+  <div class="pair-test">
+    <span>Tag</span><span>Type</span><span>Tune</span><span>AT-AT</span><span>quiT</span>
+    <span>Water</span><span>Voyage</span><span>AVATAR</span><span>Yesterday</span>
+    <span>Wavy</span><span>AWAY</span><span>To. Va. Ye.</span>
+  </div>
+
+  <p>Some of those pairs, in certain typefaces, collided like commuters at a turnstile. Others, in better typefaces, kept a courteous distance. Tanya believed — and had believed for some time — that the purpose of a letter was to be itself, unambiguously, before it was anything else.</p>
+
+  <p>She opened the manuscript and began to read.</p>
+
+  <p>"In the evening, by the seawall, we watched the ferry cross toward the far shore. The gulls were loud. The water was not."</p>
+
+  <p>The words did not fight each other. The y did not lean under the w. The T stood like a flagpole, and everything that followed it stood a polite distance away, as if waiting to be introduced. It was, she realised, the first page she had read all year without her eyes tripping.</p>
+
+  <p>She closed the manuscript. She walked to Mr. Trevelyan's office. She did not, in the end, quit — but she did, very quietly, replace the mug.</p>
+
+  <h2>Kerning Pair Reference</h2>
+
+  <p>Common pairs where kerning matters most. In a properly kerned font, the pairs below should sit visually balanced; in a kernless font, the uppercase pairs in particular will show obvious gaps.</p>
+
+  <div class="kern-grid">
+    <div class="kern-group"><div class="kern-label">Capital + lowercase (diagonal)</div>
+      <div class="kern-row">Ta Te Ti To Tu Ty Tw</div>
+      <div class="kern-row">Va Ve Vo Vu Vy</div>
+      <div class="kern-row">Wa We Wi Wo Wr Wy</div>
+      <div class="kern-row">Ya Ye Yo Yu</div>
+      <div class="kern-row">Pa Pe Po</div>
+      <div class="kern-row">Fa Fe Fi Fo</div>
+    </div>
+
+    <div class="kern-group"><div class="kern-label">Capital + capital</div>
+      <div class="kern-row">AT AV AW AY</div>
+      <div class="kern-row">TA TV TW TY</div>
+      <div class="kern-row">VA VV VW VY</div>
+      <div class="kern-row">LT LV LW LY</div>
+      <div class="kern-row">FA PA RA</div>
+    </div>
+
+    <div class="kern-group"><div class="kern-label">Lowercase + lowercase</div>
+      <div class="kern-row">av aw ay</div>
+      <div class="kern-row">va vo vy</div>
+      <div class="kern-row">we wa wo</div>
+      <div class="kern-row">ye yo</div>
+      <div class="kern-row">rn rv ry</div>
+      <div class="kern-row">fi fl ff ffi ffl</div>
+    </div>
+
+    <div class="kern-group"><div class="kern-label">Punctuation + letter</div>
+      <div class="kern-row">T. T, V. V, W. W, Y. Y,</div>
+      <div class="kern-row">"A "T "V "W "Y</div>
+      <div class="kern-row">A' L' P' R' T' V' W'</div>
+      <div class="kern-row">(A (T (V (W (Y</div>
+      <div class="kern-row">-T -V -W -Y f/ /f</div>
+    </div>
+
+    <div class="kern-group"><div class="kern-label">Common words</div>
+      <div class="kern-row">The Type Tune Today Twenty</div>
+      <div class="kern-row">Voyage Victor Villa Valley</div>
+      <div class="kern-row">Water Wave Wyoming Worry</div>
+      <div class="kern-row">Yesterday Young Yellow</div>
+      <div class="kern-row">Avatar Ava Axiom Always</div>
+    </div>
+
+    <div class="kern-group"><div class="kern-label">Digits + punctuation</div>
+      <div class="kern-row">1,000 2,500 3.14 7,777</div>
+      <div class="kern-row">10 11 14 17 27 47 74</div>
+      <div class="kern-row">T7 Y1 V4 W2</div>
+    </div>
+
+    <div class="kern-group"><div class="kern-label">Pangram stress test</div>
+      <div class="kern-row">The quick brown fox jumps over the lazy dog.</div>
+      <div class="kern-row">Pack my box with five dozen liquor jugs.</div>
+      <div class="kern-row">TAXI AVAILABLE — YAWN, VAN, WAVY</div>
+    </div>
+  </div>
+
+  <div class="footer-meta">— end of sample —<br>
+    Toggle variants above, or press <b>space</b>. Try the size and line-height sliders.
+  </div>
+</article>
+
+<script>
+  const reader = document.getElementById('reader');
+  const btns = {
+    A: document.getElementById('btnA'),
+    B: document.getElementById('btnB'),
+    C: document.getElementById('btnC'),
+    Neo: document.getElementById('btnNeo'),
+    NeoT: document.getElementById('btnNeoT'),
+    T: document.getElementById('btnT'),
+  };
+  const pill = document.getElementById('pill');
+
+  const info = {
+    A:    'A · v0.99 · 1/2 GPOS pairs (kernless, as shipped upstream)',
+    B:    'B · v0.92 · 3760 GPOS pairs (old fully-kerned build)',
+    C:    'C · v0.99 + merged kerning · 3760 GPOS pairs',
+    Neo:  'Neo · NV OpenDyslexic Neo (R+B kerned, I/BI from classic, original metrics)',
+    NeoT: 'Neo T · tight variant · −60u advance, space 847→620',
+    T:    'T · kernless + tightened · no kerning, −90u advance (all glyphs), space 847→560',
+  };
+  const descriptions = {
+    A: {
+      title: 'OpenDyslexic A — upstream current',
+      sub: 'v0.99 · Abbie Gonzalez · Feb 2025 · 1 / 2 kerning pairs',
+      body: 'The current official build from the OpenDyslexic project (abbiecod.es). In commit <code>7d7f63c</code> ("adjustments in positions") the designer reworked glyph widths and sidebearings and, in the process, stripped essentially all letter-pair kerning from Regular and Bold — only a single punctuation-plus-space rule remains. Italic and Bold-Italic were not touched in the same way and still ship kerned. This is the font as Abbie currently publishes it.'
+    },
+    B: {
+      title: 'OpenDyslexic B — legacy kerned build',
+      sub: 'v0.92 · packaged for ebook-fonts (Nico Verbruggen) · 3760 pairs',
+      body: 'An older upstream build (v0.920, compiled with hotconv/makeotfexe) that predates the kerning removal. Includes 3760 hand-tuned pair-adjustment rules plus a legacy <code>kern</code> table, covering most Latin letter combinations with T, V, W, Y, A. This is what currently ships in the <a href="https://github.com/nicoverbruggen/ebook-fonts">ebook-fonts</a> repo as NV_OpenDyslexic-Regular.ttf. Glyph outlines are the older v0.92 shapes — predating Abbie\'s v0.99 metric and glyph refinements.'
+    },
+    C: {
+      title: 'OpenDyslexic C — experimental merge',
+      sub: 'v0.99 glyphs + v0.92 kerning · built in this session · 3760 pairs',
+      body: 'A one-off experiment: the new v0.99 glyph outlines and metrics from A, with B\'s 3760 kerning pairs grafted back in via a fresh <code>kern</code> feature. All pairs transferred cleanly — every glyph B kerns exists in A. Lets you isolate the two variables: A vs C is a pure-kerning comparison, B vs C is a pure-glyph comparison.'
+    },
+    Neo: {
+      title: 'OpenDyslexic Neo — clean rebuild',
+      sub: 'Built by Nico Verbruggen · 4 styles · kerning restored',
+      body: 'A four-style family built from unmodified upstream OTF sources. <b>Regular</b> uses v0.99 glyphs + B\'s 3760 kern pairs. <b>Bold</b> uses v0.99 glyphs + 5504 kern pairs from the classic NV_OpenDyslexic Bold. <b>Italic</b> (4020 pairs) and <b>Bold Italic</b> (2096 pairs) are the already-kerned kobo-font-fix builds, renamed. Same metrics as A — just with kerning restored where upstream dropped it. Sits in <code>/home/nico/Desktop/od-neo/</code>.'
+    },
+    NeoT: {
+      title: 'OpenDyslexic Neo T — tight variant',
+      sub: 'Neo with tightened metrics · built in this session · all kerning preserved',
+      body: 'Same as Neo, but every glyph\'s advance width is reduced by 60 units (on a 1000 UPM grid) with outlines shifted left by 30 so tightening is symmetric. The space glyph is narrowed from 847 → 620 units (~27% tighter). Kerning pairs are preserved on top of the new metrics, so aggressive pairs like qT (−490) combine with the global tightening. Uppercase glyphs are spared the global tightening so kerned uppercase pairs (AVATAR, TITAN) don\'t over-collapse.'
+    },
+    T: {
+      title: 'OpenDyslexic T — tight kernless',
+      sub: 'A (upstream v0.99) with tightened metrics · no kerning restored',
+      body: 'A different answer to "the spacing feels too generous": keep Abbie\'s deliberate kernless upstream design, but shave 90 units off every glyph\'s advance (uppercase included, since there\'s no kerning to double-penalize) and narrow the space from 847 → 560. Result is a uniformly tighter kernless font — preserves Abbie\'s decision to remove letter-pair kerning in v0.99 while addressing the visible spacing complaints. Compare against Neo T to see the trade-off: Neo T uses per-pair kerning on top of tightening, T uses only metrics.'
+    }
+  };
+  const order = ['A','B','C','Neo','NeoT','T'];
+
+  function setFont(which) {
+    order.forEach(k => {
+      reader.classList.toggle(k, which === k);
+      btns[k].classList.toggle('active', which === k);
+    });
+    pill.textContent = info[which];
+    const d = descriptions[which];
+    document.getElementById('desc').innerHTML =
+      `<h3>${d.title}</h3><div class="sub">${d.sub}</div><p>${d.body}</p>`;
+  }
+
+  order.forEach(k => btns[k].onclick = () => setFont(k));
+  setFont('A');
+
+  document.addEventListener('keydown', (e) => {
+    const cur = order.find(k => reader.classList.contains(k)) || 'A';
+    if (e.key === ' ') { e.preventDefault(); setFont(order[(order.indexOf(cur)+1) % order.length]); }
+    const idx = '123456'.indexOf(e.key);
+    if (idx >= 0 && idx < order.length) setFont(order[idx]);
+  });
+
+  const sizeEl = document.getElementById('size');
+  const lhEl   = document.getElementById('lh');
+  sizeEl.oninput = () => reader.style.fontSize = sizeEl.value + 'px';
+  lhEl.oninput   = () => reader.style.lineHeight = (lhEl.value/100).toString();
+  const justifyEl = document.getElementById('justify');
+  const applyJustify = () => reader.classList.toggle('justify', justifyEl.checked);
+  justifyEl.onchange = applyJustify;
+  applyJustify();
+
+  const bodyStyleEl = document.getElementById('bodyStyle');
+  const applyBodyStyle = () => {
+    reader.classList.remove('body-italic','body-bold','body-bolditalic');
+    const v = bodyStyleEl.value;
+    if (v !== 'regular') reader.classList.add('body-' + v);
+  };
+  bodyStyleEl.onchange = applyBodyStyle;
+</script>
+</body>
+</html>
