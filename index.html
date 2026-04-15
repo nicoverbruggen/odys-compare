@@ -50,7 +50,11 @@
     font: 500 13px/1.2 system-ui, sans-serif;
     background: #3a342d; color: #e8dfcd; border: 1px solid #554c40;
     padding: 6px 12px; border-radius: 6px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
   }
+  .toolbar input[type=range] { vertical-align: middle; }
+  .toolbar input[type=checkbox] { margin: 0; vertical-align: middle; }
+  .toolbar select { background: #2a2622; color: #e8dfcd; border: 1px solid #554c40; border-radius: 4px; padding: 2px 4px; font: inherit; }
   .toolbar button.active { background: #8a5a3b; border-color: #b57a55; color: #fff; }
   .toolbar .sep { width: 1px; background: #554c40; height: 22px; }
   .toolbar .group-label { font: 500 11px/1 system-ui, sans-serif; letter-spacing: .15em; text-transform: uppercase; color: #8f8470; padding: 0 4px; }
@@ -244,8 +248,7 @@
 </article>
 
 <footer class="site-footer">
-  <p>These experimental builds exist because the current upstream OpenDyslexic (v0.99) ships without letter-pair kerning, which makes tightly-set pairs like <i>Ta</i>, <i>Wa</i>, or <i>AVATAR</i> collide in ways that undermine the font's readability goals. The variants here let you compare the kernless upstream against older kerned builds, glyph-vs-kerning isolations, and tightened-metric alternatives — to see which trade-offs actually help on the page.</p>
-  <p>More on the reasoning and other font work at <a href="https://nicoverbruggen.be/fonts">nicoverbruggen.be/fonts</a>.</p>
+  <p>An experimental comparison to determine which version of OpenDyslexic to include in my curated font collection. Learn more about the curated collection and the rationale behind modifying OFL fonts at <a href="https://nicoverbruggen.be/fonts">nicoverbruggen.be/fonts</a>.</p>
 </footer>
 
 <script>
