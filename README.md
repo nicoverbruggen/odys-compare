@@ -1,10 +1,10 @@
-# od-compare
+# odys-compare
 
 An experimental comparison harness for evaluating OpenDyslexic variants in an e-reader-like layout. Built to decide which version of OpenDyslexic to include in [`ebook-fonts`](https://github.com/nicoverbruggen/ebook-fonts).
 
 ## Background
 
-The upstream OpenDyslexic project (abbiecod.es) shipped **v0.99** with its hand-tuned letter-pair kerning stripped from the **Regular** and **Bold** styles. The change landed in commit [`7d7f63c`](https://forge.hackers.town/antijingoist/opendyslexic) ("adjustments in positions") on 2025-02-09. The commit also reworked glyph widths and sidebearings, so the kerning removal is consistent with the metrics change rather than a simple regression — but the commit message doesn't mention it.
+The upstream OpenDyslexic project (abbiecod.es) shipped **v0.99** with its hand-tuned letter-pair kerning stripped from the **Regular** and **Bold** styles. The change landed in commit [`7d7f63c`](https://forge.hackers.town/antijingoist/opendyslexic/commit/7d7f63c) ("adjustments in positions") on 2025-02-09. The commit also reworked glyph widths and sidebearings, so the kerning removal is consistent with the metrics change rather than a simple regression — but the commit message doesn't mention it.
 
 Concretely:
 
@@ -27,7 +27,7 @@ Serves a sepia, ~720px-wide e-reader mockup with a chapter of sample text and a 
 | 2 | **OpenDyslexic B** | Older v0.92, included for reference. Full 3760-pair kerning. |
 | 3 | **OpenDyslexic T** | Upstream v0.99 kernless glyphs, tightened uniformly: −90u global advance, space 847 → 560. |
 | 4 | **OpenDyslexic UT** | Same recipe as T, pushed further: −150u advance, space 847 → 480. |
-| 5 | **OpenDyslexic Neo** | Clean four-style rebuild: v0.99 Regular & Bold with restored kerning; Italic & Bold Italic reused from kobo-font-fix. |
+| 5 | **OpenDyslexic Neo** | Clean four-style rebuild: v0.99 Regular & Bold with kerning transplanted from v0.92; Italic & Bold Italic taken from v0.99 as-is. |
 | 6 | **OpenDyslexic Neo T** | Neo with tightened metrics: −60u global advance (uppercase spared so kerned uppercase pairs don't over-collapse), space narrowed 847 → 620. |
 
 All six variants ship Regular, Bold, Italic, and Bold Italic cuts.
@@ -42,11 +42,11 @@ Other controls:
 ## Running it
 
 ```sh
-cd od-compare
+cd od-compare/public
 python3 -m http.server 8765
 ```
 
-Then open http://localhost:8765/.
+Then open http://localhost:8765/. For deployment, `nixpacks.toml` is configured to serve `public/` with PHP's built-in server.
 
 ## How the experimental variants were built
 
