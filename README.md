@@ -4,7 +4,7 @@ An experimental comparison harness for evaluating OpenDyslexic variants in an e-
 
 ## Background
 
-The upstream OpenDyslexic project (abbiecod.es) shipped **v0.99** with its hand-tuned letter-pair kerning stripped from the **Regular** and **Bold** styles. The change landed in commit [`7d7f63c`](https://github.com/antijingoist/opendyslexic) ("adjustments in positions") on 2025-02-09. The commit also reworked glyph widths and sidebearings, so the kerning removal is consistent with the metrics change rather than a simple regression — but the commit message doesn't mention it.
+The upstream OpenDyslexic project (abbiecod.es) shipped **v0.99** with its hand-tuned letter-pair kerning stripped from the **Regular** and **Bold** styles. The change landed in commit [`7d7f63c`](https://forge.hackers.town/antijingoist/opendyslexic) ("adjustments in positions") on 2025-02-09. The commit also reworked glyph widths and sidebearings, so the kerning removal is consistent with the metrics change rather than a simple regression — but the commit message doesn't mention it.
 
 Concretely:
 
@@ -50,32 +50,26 @@ Then open http://localhost:8765/.
 
 ## How the experimental variants were built
 
-### Neo Regular
+### Neo and Neo T
 
-1. Start from upstream `OpenDyslexic-Regular.otf` (v0.99 CFF).
-2. Extract kern pairs from the older v0.92 Regular (3760 pairs, glyph-name based).
-3. Strip the single-pair v0.99 GPOS table; rebuild `kern` feature from the v0.92 pairs. All 3760 glyph-name references resolved — nothing skipped.
-4. Convert OTF → TTF via `otf2ttf` (fontTools).
+See `build_neo.py` in the repo root. It expects upstream v0.99 OTFs in `src/0.99/` and the older v0.92 TTFs in `src/0.92-nv/` (used as the kerning source for Regular and Bold). Running `python3 build_neo.py` produces all eight cuts into `public/fonts/Neo/` and `public/fonts/NeoT/`.
 
-### Neo Bold
+Per cut:
 
-Same recipe, with kerning sourced from the older Bold (5504/5505 pairs survived).
+- **Regular / Bold**: v0.99 glyph outlines; GPOS/kern transplanted from the v0.92 equivalent (subsetted to the glyphs that exist in v0.99 so no dangling rules).
+- **Italic / Bold Italic**: v0.99 as-is (already kerned upstream, 4020 and 2096 pairs respectively).
 
-### Neo Italic / Bold Italic
-
-Reused from the already-kerned kobo-font-fix builds (4020 and 2096 pairs respectively), which match v0.99's Italic/Bold-Italic kerning.
-
-### Neo T
-
-Applied to each Neo cut:
+For Neo T, each cut is additionally tightened:
 
 - Each non-uppercase glyph: advance −60 units (on 1000 UPM), outlines shifted left by 30 units (symmetric tightening).
 - Uppercase glyphs (Unicode category `Lu`): metrics left untouched. Kerned uppercase pairs (e.g. `qT=−490`) would over-collapse if combined with global tightening.
 - Space glyph: advance 847 → 620.
 
+Ligatures (`liga`/`dlig`/`rlig`) are disabled on every Neo and Neo T cut, matching the T/UT treatment.
+
 ### T and UT
 
-See `build_tight.py` in the repo root for the full reproducible pipeline (reads upstream OTFs from `SRC_DIR`, writes all eight cuts into `fonts/T/` and `fonts/UT/`). Applied to upstream v0.99 (all four cuts), kernless:
+See `build_tight.py` in the repo root for the full reproducible pipeline. Drop the four upstream v0.99 `OpenDyslexic-*.otf` files into `src/0.99/` and run `python3 build_tight.py` — it writes all eight cuts into `public/fonts/T/` and `public/fonts/UT/`. Applied to upstream v0.99 (all four cuts), kernless:
 
 - T: every glyph (including uppercase) has advance shortened by 90 units, outlines shifted −45. Space 847 → 560.
 - UT: same idea, −150 units and space 847 → 480. Pushes the kernless tightening about as far as it can go before pairs start to collide.
@@ -95,19 +89,32 @@ For `ebook-fonts` (justified e-reader columns):
 - **Neo** matches B's typographic color with the newer v0.99 glyph refinements. Effectively a clean upgrade over B.
 - **Neo T**, **T**, and **UT** are the three "tighter spacing" answers, differing in philosophy: Neo T keeps and respects the restored kerning; T and UT keep upstream's kernless intent and just shorten metrics, with UT being the more aggressive cut.
 
+## Credits & license
+
+OpenDyslexic is designed by **Abbie Gonzalez** ([abbiecod.es](https://abbiecod.es/), [upstream repo](https://forge.hackers.town/antijingoist/opendyslexic)). The A and B variants here are unmodified builds of her work (v0.99 and v0.92 respectively); Neo, Neo T, T, and UT are experimental derivatives produced by the build scripts in this repository.
+
+All fonts — original and derivative — are distributed under the **SIL Open Font License, Version 1.1**. See `LICENSE` for the full text.
+
 ## Files
 
 ```
 od-compare/
 ├── README.md            (this file)
+├── LICENSE              (SIL OFL 1.1)
 ├── build_tight.py       (reproducible T/UT build pipeline)
-├── index.html           (the comparison page)
-├── index.js             (page logic)
-└── fonts/
-    ├── A-*.ttf          (variant 1: upstream v0.99)
-    ├── B-*.ttf          (variant 2: older v0.92)
-    ├── T-*.otf          (variant 3: kernless tightened)
-    ├── UT-*.otf         (variant 4: kernless ultra-tight)
-    ├── Neo-*.ttf        (variant 5: Neo family)
-    └── NeoT-*.ttf       (variant 6: Neo T family)
+├── build_neo.py         (reproducible Neo/Neo T build pipeline)
+├── nixpacks.toml        (deployment config — serves public/)
+├── src/
+│   ├── 0.99/            (drop upstream v0.99 OpenDyslexic-*.otf here)
+│   └── 0.92-nv/         (older v0.92 TTFs, kerning source for Neo R/B)
+└── public/              (served webroot)
+    ├── index.html       (the comparison page)
+    ├── index.js         (page logic)
+    └── fonts/
+        ├── A/*.ttf      (variant 1: upstream v0.99)
+        ├── B/*.ttf      (variant 2: older v0.92)
+        ├── T/*.otf      (variant 3: kernless tightened)
+        ├── UT/*.otf     (variant 4: kernless ultra-tight)
+        ├── Neo/*.otf    (variant 5: Neo family)
+        └── NeoT/*.otf   (variant 6: Neo T family)
 ```

@@ -20,20 +20,24 @@ Steps applied to every cut (Regular, Bold, Italic, BoldItalic):
   6. Rewrite the `name` table so the family reads "OpenDyslexic T" / "UT".
 
 Usage:
-    python3 build_tight.py
+    python3 build_tight.py [--src DIR]
 
-Requires fontTools. Source OTFs are read from SRC_DIR; outputs go to OUT_ROOT.
+Requires fontTools. By default source OTFs are read from ./src/0.99/ (drop the
+four upstream v0.99 OpenDyslexic-*.otf files there). Outputs go to
+./public/fonts/T/ and ./public/fonts/UT/.
 """
 
 from __future__ import annotations
+import argparse
 import math
 import os
 from fontTools.ttLib import TTFont
 from fontTools.pens.t2CharStringPen import T2CharStringPen
 from fontTools.pens.transformPen import TransformPen
 
-SRC_DIR = "/home/nico/Desktop/od"
-OUT_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fonts")
+REPO_ROOT = os.path.dirname(os.path.abspath(__file__))
+DEFAULT_SRC_DIR = os.path.join(REPO_ROOT, "src", "0.99")
+OUT_ROOT = os.path.join(REPO_ROOT, "public", "fonts")
 
 STYLES = [
     ("Regular",    "OpenDyslexic-Regular.otf"),
@@ -164,9 +168,25 @@ def build(src: str, out: str, variant: str, style: str, adv_delta: int, space_ad
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument(
+        "--src", default=DEFAULT_SRC_DIR,
+        help=f"directory containing upstream v0.99 OpenDyslexic-*.otf files (default: {DEFAULT_SRC_DIR})",
+    )
+    args = parser.parse_args()
+
+    missing = [n for _, n in STYLES if not os.path.isfile(os.path.join(args.src, n))]
+    if missing:
+        raise SystemExit(
+            f"Missing upstream source OTFs in {args.src}:\n  "
+            + "\n  ".join(missing)
+            + "\n\nDownload OpenDyslexic v0.99 from https://forge.hackers.town/antijingoist/opendyslexic"
+              " and place the four Regular/Bold/Italic/BoldItalic OTFs in that directory."
+        )
+
     for variant, params in VARIANTS.items():
         for style, src_name in STYLES:
-            src = os.path.join(SRC_DIR, src_name)
+            src = os.path.join(args.src, src_name)
             out = os.path.join(OUT_ROOT, variant, f"{variant}-{style}.otf")
             build(src, out, variant, style, params["adv_delta"], params["space"])
 
