@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Build the experimental OpenDyslexic Neo and Neo T variants.
+"""Build the experimental OpenDyslexic M and MT variants.
 
-Neo is a clean four-style family that combines upstream v0.99 glyph outlines
+M is a clean four-style family that combines upstream v0.99 glyph outlines
 with the kerning tables from the older v0.92 build:
 
   - Regular:    v0.99 outlines + v0.92 Regular GPOS kerning (3760 pairs)
@@ -9,7 +9,7 @@ with the kerning tables from the older v0.92 build:
   - Italic:     v0.99 Italic as-is (already kerned, 4020 pairs)
   - BoldItalic: v0.99 BoldItalic as-is (already kerned, 2096 pairs)
 
-Neo T applies the same global tightening to each Neo cut:
+MT applies the same global tightening to each M cut:
 
   - Non-uppercase glyphs: advance -60 units, outlines shifted left by 30
     (symmetric tightening). Uppercase glyphs are spared so kerned uppercase
@@ -18,16 +18,16 @@ Neo T applies the same global tightening to each Neo cut:
 
 On both variants the `liga`/`dlig`/`rlig` GSUB features are disabled so typed
 `fi`/`fl` sequences render as separate glyphs. The `name` table is rewritten
-to "OpenDyslexic Neo" / "OpenDyslexic Neo T".
+to "OpenDyslexic M" / "OpenDyslexic MT".
 
 Usage:
-    python3 build_neo.py [--v99 DIR] [--v92 DIR]
+    python3 build_m.py [--v99 DIR] [--v92 DIR]
 
 Requires fontTools. By default:
     --v99 ./src/0.99/     upstream v0.99 OTFs
     --v92 ./src/0.92-nv/  older v0.92 TTFs (source of Regular + Bold kerning)
 
-Outputs go to ./public/fonts/Neo/ and ./public/fonts/NeoT/.
+Outputs go to ./public/fonts/M/ and ./public/fonts/MT/.
 """
 
 from __future__ import annotations
@@ -162,7 +162,7 @@ def build_neo(v99_path: str, v92_path: str | None, out_path: str, tag: str) -> N
 def build_neot(neo_path: str, out_path: str) -> None:
     font = TTFont(neo_path)
     apply_neot(font)
-    rename_family(font, "Neo T")  # rename_family is idempotent against re-prefixing
+    rename_family(font, "MT")  # rename_family is idempotent against re-prefixing
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     font.save(out_path)
     print(f"wrote {out_path}")
@@ -181,10 +181,10 @@ def main() -> None:
             raise SystemExit(f"Missing upstream source: {v99}")
         if v92 and not os.path.isfile(v92):
             raise SystemExit(f"Missing v0.92 kerning source: {v92}")
-        neo_out = os.path.join(OUT_ROOT, "Neo", f"Neo-{style}.otf")
-        neot_out = os.path.join(OUT_ROOT, "NeoT", f"NeoT-{style}.otf")
-        build_neo(v99, v92, neo_out, "Neo")
-        build_neot(neo_out, neot_out)
+        m_out = os.path.join(OUT_ROOT, "M", f"M-{style}.otf")
+        mt_out = os.path.join(OUT_ROOT, "MT", f"MT-{style}.otf")
+        build_neo(v99, v92, m_out, "M")
+        build_neot(m_out, mt_out)
 
 
 if __name__ == "__main__":

@@ -2,8 +2,8 @@ const reader = document.getElementById('reader');
 const btns = {
   A: document.getElementById('btnA'),
   B: document.getElementById('btnB'),
-  Neo: document.getElementById('btnNeo'),
-  NeoT: document.getElementById('btnNeoT'),
+  M: document.getElementById('btnM'),
+  MT: document.getElementById('btnMT'),
   T: document.getElementById('btnT'),
   UT: document.getElementById('btnUT'),
 };
@@ -18,20 +18,20 @@ const descriptions = {
     sub: 'v0.92 · renamed for ebook-fonts (Nico Verbruggen) · 3760 pairs',
     body: 'Simply an older version of OpenDyslexic (v0.92), included for reference in the <a href="https://github.com/nicoverbruggen/ebook-fonts">ebook-fonts</a> repo — no modifications. This older upstream build predates the kerning removal and includes 3760 hand-tuned pair-adjustment rules plus a legacy <code>kern</code> table, covering most Latin letter combinations with T, V, W, Y, A. Glyph outlines are the older v0.92 shapes — predating Abbie\'s v0.99 metric and glyph refinements.'
   },
-  Neo: {
-    title: 'OpenDyslexic Neo — clean rebuild',
+  M: {
+    title: 'OpenDyslexic M — clean rebuild',
     sub: 'Experimental version · 4 styles · kerning restored',
     body: 'A four-style family built from unmodified upstream OTF sources. <b>Regular</b> uses v0.99 glyphs + B\'s 3760 kern pairs. <b>Bold</b> uses v0.99 glyphs + 5504 kern pairs from the older OpenDyslexic Bold. <b>Italic</b> (4020 pairs) and <b>Bold Italic</b> (2096 pairs) are the already-kerned kobo-font-fix builds, renamed. Same metrics as A — just with kerning restored where upstream dropped it.'
   },
-  NeoT: {
-    title: 'OpenDyslexic Neo T — tight variant',
-    sub: 'Neo with tightened metrics · experimental version · all kerning preserved',
-    body: 'Same as Neo, but every glyph\'s advance width is reduced by 60 units (on a 1000 UPM grid) with outlines shifted left by 30 so tightening is symmetric. The space glyph is narrowed from 847 → 620 units (~27% tighter). Kerning pairs are preserved on top of the new metrics, so aggressive pairs like qT (−490) combine with the global tightening. Uppercase glyphs are spared the global tightening so kerned uppercase pairs (AVATAR, TITAN) don\'t over-collapse.'
+  MT: {
+    title: 'OpenDyslexic MT — tight variant',
+    sub: 'M with tightened metrics · experimental version · all kerning preserved',
+    body: 'Same as M, but every glyph\'s advance width is reduced by 60 units (on a 1000 UPM grid) with outlines shifted left by 30 so tightening is symmetric. The space glyph is narrowed from 847 → 620 units (~27% tighter). Kerning pairs are preserved on top of the new metrics, so aggressive pairs like qT (−490) combine with the global tightening. Uppercase glyphs are spared the global tightening so kerned uppercase pairs (AVATAR, TITAN) don\'t over-collapse.'
   },
   T: {
     title: 'OpenDyslexic T — tight kernless',
     sub: 'A (upstream v0.99) with tightened metrics · no kerning restored',
-    body: 'A different answer to "the spacing feels too generous": keep Abbie\'s deliberate kernless upstream design, but shave 90 units off every glyph\'s advance (uppercase included, since there\'s no kerning to double-penalize) and narrow the space from 847 → 560. Result is a uniformly tighter kernless font — preserves Abbie\'s decision to remove letter-pair kerning in v0.99 while addressing the visible spacing complaints. Kerning is also stripped from the Italic and Bold Italic cuts for consistency, and the <code>fi</code>/<code>fl</code> ligature substitutions are disabled across all four styles. Compare against Neo T to see the trade-off: Neo T uses per-pair kerning on top of tightening, T uses only metrics.'
+    body: 'A different answer to "the spacing feels too generous": keep Abbie\'s deliberate kernless upstream design, but shave 90 units off every glyph\'s advance (uppercase included, since there\'s no kerning to double-penalize) and narrow the space from 847 → 560. Result is a uniformly tighter kernless font — preserves Abbie\'s decision to remove letter-pair kerning in v0.99 while addressing the visible spacing complaints. Kerning is also stripped from the Italic and Bold Italic cuts for consistency, and the <code>fi</code>/<code>fl</code> ligature substitutions are disabled across all four styles. Compare against MT to see the trade-off: MT uses per-pair kerning on top of tightening, T uses only metrics.'
   },
   UT: {
     title: 'OpenDyslexic UT — ultra tight kernless <span class="meta-pill">personal favorite</span>',
@@ -39,7 +39,7 @@ const descriptions = {
     body: 'The same idea as T, pushed further: −150 units off every glyph\'s advance (outlines shifted left by 75 for symmetric tightening) and the space narrowed from 847 → 480 (~43% tighter). Still kernless, following Abbie\'s upstream design decision — kerning is stripped from Italic and Bold Italic as well, and the <code>fi</code>/<code>fl</code> ligature substitutions are disabled across all four styles. Useful as the extreme end of the tightening spectrum — A is untouched upstream, T is moderately tight, UT pushes metrics about as far as they can go before pairs start to collide.'
   }
 };
-const order = ['A','B','T','UT','Neo','NeoT'];
+const order = ['A','B','T','UT','M','MT'];
 
 function setFont(which) {
   order.forEach(k => {

@@ -19,7 +19,7 @@ So the kerning wasn't removed as a blanket decision — Italic and Bold Italic k
 
 ## What this page does
 
-Serves a sepia, ~720px-wide e-reader mockup with a chapter of sample text and a kerning-pair reference grid. Six font variants can be toggled live via buttons or keys `1`–`6`, grouped into **Classic** (keys 1–4) and **Neo** (keys 5–6):
+Serves a sepia, ~720px-wide e-reader mockup with a chapter of sample text and a kerning-pair reference grid. Six font variants can be toggled live via buttons or keys `1`–`6`, grouped into **Classic** (keys 1–4) and **Mixed** (keys 5–6):
 
 | # | Variant | What it is |
 | - | ------- | ---------- |
@@ -27,8 +27,8 @@ Serves a sepia, ~720px-wide e-reader mockup with a chapter of sample text and a 
 | 2 | **OpenDyslexic B** | Older v0.92, included for reference. Full 3760-pair kerning. |
 | 3 | **OpenDyslexic T** | Upstream v0.99 kernless glyphs, tightened uniformly: −90u global advance, space 847 → 560. |
 | 4 | **OpenDyslexic UT** | Same recipe as T, pushed further: −150u advance, space 847 → 480. |
-| 5 | **OpenDyslexic Neo** | Clean four-style rebuild: v0.99 Regular & Bold with kerning transplanted from v0.92; Italic & Bold Italic taken from v0.99 as-is. |
-| 6 | **OpenDyslexic Neo T** | Neo with tightened metrics: −60u global advance (uppercase spared so kerned uppercase pairs don't over-collapse), space narrowed 847 → 620. |
+| 5 | **OpenDyslexic M** | Clean four-style rebuild: v0.99 Regular & Bold with kerning transplanted from v0.92; Italic & Bold Italic taken from v0.99 as-is. |
+| 6 | **OpenDyslexic MT** | M with tightened metrics: −60u global advance (uppercase spared so kerned uppercase pairs don't over-collapse), space narrowed 847 → 620. |
 
 All six variants ship Regular, Bold, Italic, and Bold Italic cuts.
 
@@ -50,22 +50,22 @@ Then open http://localhost:8765/. For deployment, `nixpacks.toml` is configured 
 
 ## How the experimental variants were built
 
-### Neo and Neo T
+### M and MT
 
-See `build_neo.py` in the repo root. It expects upstream v0.99 OTFs in `src/0.99/` and the older v0.92 TTFs in `src/0.92-nv/` (used as the kerning source for Regular and Bold). Running `python3 build_neo.py` produces all eight cuts into `public/fonts/Neo/` and `public/fonts/NeoT/`.
+See `build_m.py` in the repo root. It expects upstream v0.99 OTFs in `src/0.99/` and the older v0.92 TTFs in `src/0.92-nv/` (used as the kerning source for Regular and Bold). Running `python3 build_m.py` produces all eight cuts into `public/fonts/M/` and `public/fonts/MT/`.
 
 Per cut:
 
 - **Regular / Bold**: v0.99 glyph outlines; GPOS/kern transplanted from the v0.92 equivalent (subsetted to the glyphs that exist in v0.99 so no dangling rules).
 - **Italic / Bold Italic**: v0.99 as-is (already kerned upstream, 4020 and 2096 pairs respectively).
 
-For Neo T, each cut is additionally tightened:
+For MT, each cut is additionally tightened:
 
 - Each non-uppercase glyph: advance −60 units (on 1000 UPM), outlines shifted left by 30 units (symmetric tightening).
 - Uppercase glyphs (Unicode category `Lu`): metrics left untouched. Kerned uppercase pairs (e.g. `qT=−490`) would over-collapse if combined with global tightening.
 - Space glyph: advance 847 → 620.
 
-Ligatures (`liga`/`dlig`/`rlig`) are disabled on every Neo and Neo T cut, matching the T/UT treatment.
+Ligatures (`liga`/`dlig`/`rlig`) are disabled on every M and MT cut, matching the T/UT treatment.
 
 ### T and UT
 
@@ -86,12 +86,12 @@ For `ebook-fonts` (justified e-reader columns):
 
 - **A** (upstream) produces visible rivers of whitespace in justified text — browsers stretch word-spacing to compensate for the missing letter-pair tightening.
 - **B** (older v0.92) reads cleanly but uses older glyph shapes.
-- **Neo** matches B's typographic color with the newer v0.99 glyph refinements. Effectively a clean upgrade over B.
-- **Neo T**, **T**, and **UT** are the three "tighter spacing" answers, differing in philosophy: Neo T keeps and respects the restored kerning; T and UT keep upstream's kernless intent and just shorten metrics, with UT being the more aggressive cut.
+- **M** matches B's typographic color with the newer v0.99 glyph refinements. Effectively a clean upgrade over B.
+- **MT**, **T**, and **UT** are the three "tighter spacing" answers, differing in philosophy: MT keeps and respects the restored kerning; T and UT keep upstream's kernless intent and just shorten metrics, with UT being the more aggressive cut.
 
 ## Credits & license
 
-OpenDyslexic is designed by **Abbie Gonzalez** ([abbiecod.es](https://abbiecod.es/), [upstream repo](https://forge.hackers.town/antijingoist/opendyslexic)). The A and B variants here are unmodified builds of her work (v0.99 and v0.92 respectively); Neo, Neo T, T, and UT are experimental derivatives produced by the build scripts in this repository.
+OpenDyslexic is designed by **Abbie Gonzalez** ([abbiecod.es](https://abbiecod.es/), [upstream repo](https://forge.hackers.town/antijingoist/opendyslexic)). The A and B variants here are unmodified builds of her work (v0.99 and v0.92 respectively); M, MT, T, and UT are experimental derivatives produced by the build scripts in this repository.
 
 All fonts — original and derivative — are distributed under the **SIL Open Font License, Version 1.1**. See `LICENSE` for the full text.
 
@@ -102,11 +102,11 @@ od-compare/
 ├── README.md            (this file)
 ├── LICENSE              (SIL OFL 1.1)
 ├── build_tight.py       (reproducible T/UT build pipeline)
-├── build_neo.py         (reproducible Neo/Neo T build pipeline)
+├── build_m.py           (reproducible M/MT build pipeline)
 ├── nixpacks.toml        (deployment config — serves public/)
 ├── src/
 │   ├── 0.99/            (drop upstream v0.99 OpenDyslexic-*.otf here)
-│   └── 0.92-nv/         (older v0.92 TTFs, kerning source for Neo R/B)
+│   └── 0.92-nv/         (older v0.92 TTFs, kerning source for M R/B)
 └── public/              (served webroot)
     ├── index.html       (the comparison page)
     ├── index.js         (page logic)
@@ -115,6 +115,6 @@ od-compare/
         ├── B/*.ttf      (variant 2: older v0.92)
         ├── T/*.otf      (variant 3: kernless tightened)
         ├── UT/*.otf     (variant 4: kernless ultra-tight)
-        ├── Neo/*.otf    (variant 5: Neo family)
-        └── NeoT/*.otf   (variant 6: Neo T family)
+        ├── M/*.otf     (variant 5: M family)
+        └── MT/*.otf    (variant 6: MT family)
 ```

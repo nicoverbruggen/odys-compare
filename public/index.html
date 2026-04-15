@@ -12,14 +12,14 @@
   @font-face { font-family: "OD-B"; src: url("fonts/B/B-Italic.ttf");     font-weight: 400; font-style: italic; }
   @font-face { font-family: "OD-B"; src: url("fonts/B/B-Bold.ttf");       font-weight: 700; font-style: normal; }
   @font-face { font-family: "OD-B"; src: url("fonts/B/B-BoldItalic.ttf"); font-weight: 700; font-style: italic; }
-  @font-face { font-family: "OD-Neo"; src: url("fonts/Neo/Neo-Regular.otf");    font-weight: 400; font-style: normal; }
-  @font-face { font-family: "OD-Neo"; src: url("fonts/Neo/Neo-Italic.otf");     font-weight: 400; font-style: italic; }
-  @font-face { font-family: "OD-Neo"; src: url("fonts/Neo/Neo-Bold.otf");       font-weight: 700; font-style: normal; }
-  @font-face { font-family: "OD-Neo"; src: url("fonts/Neo/Neo-BoldItalic.otf"); font-weight: 700; font-style: italic; }
-  @font-face { font-family: "OD-NeoT"; src: url("fonts/NeoT/NeoT-Regular.otf");    font-weight: 400; font-style: normal; }
-  @font-face { font-family: "OD-NeoT"; src: url("fonts/NeoT/NeoT-Italic.otf");     font-weight: 400; font-style: italic; }
-  @font-face { font-family: "OD-NeoT"; src: url("fonts/NeoT/NeoT-Bold.otf");       font-weight: 700; font-style: normal; }
-  @font-face { font-family: "OD-NeoT"; src: url("fonts/NeoT/NeoT-BoldItalic.otf"); font-weight: 700; font-style: italic; }
+  @font-face { font-family: "OD-M"; src: url("fonts/M/M-Regular.otf");    font-weight: 400; font-style: normal; }
+  @font-face { font-family: "OD-M"; src: url("fonts/M/M-Italic.otf");     font-weight: 400; font-style: italic; }
+  @font-face { font-family: "OD-M"; src: url("fonts/M/M-Bold.otf");       font-weight: 700; font-style: normal; }
+  @font-face { font-family: "OD-M"; src: url("fonts/M/M-BoldItalic.otf"); font-weight: 700; font-style: italic; }
+  @font-face { font-family: "OD-MT"; src: url("fonts/MT/MT-Regular.otf");    font-weight: 400; font-style: normal; }
+  @font-face { font-family: "OD-MT"; src: url("fonts/MT/MT-Italic.otf");     font-weight: 400; font-style: italic; }
+  @font-face { font-family: "OD-MT"; src: url("fonts/MT/MT-Bold.otf");       font-weight: 700; font-style: normal; }
+  @font-face { font-family: "OD-MT"; src: url("fonts/MT/MT-BoldItalic.otf"); font-weight: 700; font-style: italic; }
   @font-face { font-family: "OD-T"; src: url("fonts/T/T-Regular.otf");    font-weight: 400; font-style: normal; }
   @font-face { font-family: "OD-T"; src: url("fonts/T/T-Italic.otf");     font-weight: 400; font-style: italic; }
   @font-face { font-family: "OD-T"; src: url("fonts/T/T-Bold.otf");       font-weight: 700; font-style: normal; }
@@ -70,8 +70,8 @@
     font-feature-settings: "kern" 1; text-rendering: optimizeLegibility;
   }
   .reader.B { font-family: "OD-B", sans-serif; }
-  .reader.Neo { font-family: "OD-Neo", sans-serif; }
-  .reader.NeoT { font-family: "OD-NeoT", sans-serif; }
+  .reader.M { font-family: "OD-M", sans-serif; }
+  .reader.MT { font-family: "OD-MT", sans-serif; }
   .reader.T { font-family: "OD-T", sans-serif; }
   .reader.UT { font-family: "OD-UT", sans-serif; }
 
@@ -127,9 +127,9 @@
     <button id="btnT">T<span class="kbd">[3]</span></button>
     <button id="btnUT">UT ★<span class="kbd">[4]</span></button>
     <div class="sep"></div>
-    <span class="group-label">Neo</span>
-    <button id="btnNeo">Neo<span class="kbd">[5]</span></button>
-    <button id="btnNeoT">Neo T<span class="kbd">[6]</span></button>
+    <span class="group-label">Mixed</span>
+    <button id="btnM">M<span class="kbd">[5]</span></button>
+    <button id="btnMT">MT<span class="kbd">[6]</span></button>
   </div>
   <div class="toolbar-row">
     <label>size <input id="size" type="range" min="14" max="28" value="20"></label>
