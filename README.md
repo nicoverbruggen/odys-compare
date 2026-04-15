@@ -75,12 +75,16 @@ Applied to each Neo cut:
 
 ### T and UT
 
-Applied to upstream v0.99 (all four cuts), kernless:
+See `build_tight.py` in the repo root for the full reproducible pipeline (reads upstream OTFs from `SRC_DIR`, writes all eight cuts into `fonts/T/` and `fonts/UT/`). Applied to upstream v0.99 (all four cuts), kernless:
 
 - T: every glyph (including uppercase) has advance shortened by 90 units, outlines shifted −45. Space 847 → 560.
 - UT: same idea, −150 units and space 847 → 480. Pushes the kernless tightening about as far as it can go before pairs start to collide.
 
 Uppercase tightening is safe in both T and UT because there's no kerning to stack with. Both variants preserve upstream's kernless design intent and only change metrics.
+
+For consistency across the family, kerning is also stripped from the Italic and Bold Italic cuts (upstream v0.99 ships them kerned, but T/UT are explicitly a kernless design). The `fi` and `fl` ligature substitutions are also disabled in all four cuts — the `liga` GSUB feature is cleared so typed `fi`/`fl` sequences render as separate glyphs.
+
+In the Italic and Bold Italic cuts, the quote glyphs (`"` `'` and their curly/low variants) are skewed −12° and padded by 120 units of advance so they lean against the italic body slant and don't crowd adjacent letters.
 
 ## Findings / recommendation
 
@@ -96,7 +100,9 @@ For `ebook-fonts` (justified e-reader columns):
 ```
 od-compare/
 ├── README.md            (this file)
+├── build_tight.py       (reproducible T/UT build pipeline)
 ├── index.html           (the comparison page)
+├── index.js             (page logic)
 └── fonts/
     ├── A-*.ttf          (variant 1: upstream v0.99)
     ├── B-*.ttf          (variant 2: older v0.92)

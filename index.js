@@ -31,12 +31,12 @@ const descriptions = {
   T: {
     title: 'OpenDyslexic T — tight kernless',
     sub: 'A (upstream v0.99) with tightened metrics · no kerning restored',
-    body: 'A different answer to "the spacing feels too generous": keep Abbie\'s deliberate kernless upstream design, but shave 90 units off every glyph\'s advance (uppercase included, since there\'s no kerning to double-penalize) and narrow the space from 847 → 560. Result is a uniformly tighter kernless font — preserves Abbie\'s decision to remove letter-pair kerning in v0.99 while addressing the visible spacing complaints. Compare against Neo T to see the trade-off: Neo T uses per-pair kerning on top of tightening, T uses only metrics.'
+    body: 'A different answer to "the spacing feels too generous": keep Abbie\'s deliberate kernless upstream design, but shave 90 units off every glyph\'s advance (uppercase included, since there\'s no kerning to double-penalize) and narrow the space from 847 → 560. Result is a uniformly tighter kernless font — preserves Abbie\'s decision to remove letter-pair kerning in v0.99 while addressing the visible spacing complaints. Kerning is also stripped from the Italic and Bold Italic cuts for consistency, and the <code>fi</code>/<code>fl</code> ligature substitutions are disabled across all four styles. Compare against Neo T to see the trade-off: Neo T uses per-pair kerning on top of tightening, T uses only metrics.'
   },
   UT: {
     title: 'OpenDyslexic UT — ultra tight kernless <span class="meta-pill">personal favorite</span>',
     sub: 'A (upstream v0.99) with aggressively tightened metrics · experimental version',
-    body: 'The same idea as T, pushed further: −150 units off every glyph\'s advance (outlines shifted left by 75 for symmetric tightening) and the space narrowed from 847 → 480 (~43% tighter). Still kernless, following Abbie\'s upstream design decision. Useful as the extreme end of the tightening spectrum — A is untouched upstream, T is moderately tight, UT pushes metrics about as far as they can go before pairs start to collide.'
+    body: 'The same idea as T, pushed further: −150 units off every glyph\'s advance (outlines shifted left by 75 for symmetric tightening) and the space narrowed from 847 → 480 (~43% tighter). Still kernless, following Abbie\'s upstream design decision — kerning is stripped from Italic and Bold Italic as well, and the <code>fi</code>/<code>fl</code> ligature substitutions are disabled across all four styles. Useful as the extreme end of the tightening spectrum — A is untouched upstream, T is moderately tight, UT pushes metrics about as far as they can go before pairs start to collide.'
   }
 };
 const order = ['A','B','T','UT','Neo','NeoT'];
