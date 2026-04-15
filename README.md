@@ -1,4 +1,7 @@
-# odys-compare
+# OpenDyslexic Experiments
+
+> [!NOTE]
+> The website and associated transformation scripts for OpenDyslexic were built with assistance from a large language model (LLM). The fonts themselves are included in the repository, but some variants may contain kerning information which is not optimized for Kobo e-reader usage yet.
 
 An experimental comparison harness for evaluating OpenDyslexic variants in an e-reader-like layout. Built to decide which version of OpenDyslexic to include in [`ebook-fonts`](https://github.com/nicoverbruggen/ebook-fonts).
 
