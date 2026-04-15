@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 32 32"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="favicon.svg"
+   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
+   inkscape:export-filename="favicon.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="8.9609375"
+     inkscape:cx="-22.598082"
+     inkscape:cy="18.245859"
+     inkscape:window-width="2560"
+     inkscape:window-height="1350"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <rect
+     width="32"
+     height="32"
+     rx="4"
+     fill="#8a5a3b"
+     id="rect1" />
+  <path
+     d="m 20.593809,14.140292 c -1.085332,-1.906664 -2.786664,-3.255996 -5.133328,-3.138663 -3.871995,0.205333 -7.186658,4.282662 -7.4506577,8.917323 -0.293333,5.045328 2.8453297,8.330657 7.4506577,8.418657 2.346664,0.05867 4.047996,-0.615999 5.133328,-2.522664 v 2.111998 l 2.786663,0.05867 -0.351999,-6.951992 0.703999,-18.0399789 h -2.639997 z m -9.797322,5.485327 c 0,-3.167996 1.671998,-5.51466 4.487995,-5.51466 2.786663,0 4.135995,2.141331 4.135995,5.309327 0,3.549329 -2.023998,4.135995 -4.223995,4.135995 -2.786664,0 -4.399995,-1.143999 -4.399995,-3.930662 z"
+     id="text1"
+     style="font-size:29.3333px;font-family:'OpenDyslexic UT';dominant-baseline:middle;text-anchor:middle;fill:#f4ecd8"
+     aria-label="d" />
+</svg>
