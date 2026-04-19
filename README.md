@@ -28,7 +28,7 @@ Serves a sepia, ~720px-wide e-reader mockup with a chapter of sample text and a 
 | - | ------- | ---------- |
 | 1 | **OpenDyslexic A** | Upstream v0.99 as shipped (kernless Regular). |
 | 2 | **OpenDyslexic B** | Older v0.92, included for reference. Full 3760-pair kerning. |
-| 3 | **OpenDyslexic T** | Upstream v0.99 kernless glyphs, tightened uniformly: −90u global advance, space 847 → 560. |
+| 3 | **OpenDyslexic T** | Upstream v0.99 Regular & Bold tightened uniformly (−90u advance, space 847 → 560). Digits and punctuation are exempt and keep upstream metrics; period/comma/colon/etc. get extra *leading* whitespace. Italic and Bold Italic are synthesized by shearing Regular/Bold 12°. |
 | 4 | **OpenDyslexic UT** | Same recipe as T, pushed further: −150u advance, space 847 → 480. |
 | 5 | **OpenDyslexic M** | Clean four-style rebuild: v0.99 Regular & Bold with kerning transplanted from v0.92; Italic & Bold Italic taken from v0.99 as-is. |
 | 6 | **OpenDyslexic MT** | M with tightened metrics: −60u global advance (uppercase spared so kerned uppercase pairs don't over-collapse), space narrowed 847 → 620. |
@@ -72,16 +72,24 @@ Ligatures (`liga`/`dlig`/`rlig`) are disabled on every M and MT cut, matching th
 
 ### T and UT
 
-See `build_tight.py` in the repo root for the full reproducible pipeline. Drop the four upstream v0.99 `OpenDyslexic-*.otf` files into `src/0.99/` and run `python3 build_tight.py` — it writes all eight cuts into `public/fonts/T/` and `public/fonts/UT/`. Applied to upstream v0.99 (all four cuts), kernless:
+See `build_tight.py` in the repo root for the full reproducible pipeline. Drop the upstream v0.99 **Regular** and **Bold** `OpenDyslexic-*.otf` files into `src/0.99/` (the upstream Italic/BoldItalic are not used) and run `python3 build_tight.py` — it writes all eight cuts into `public/fonts/T/` and `public/fonts/UT/`. Both variants are kernless by design.
 
-- T: every glyph (including uppercase) has advance shortened by 90 units, outlines shifted −45. Space 847 → 560.
-- UT: same idea, −150 units and space 847 → 480. Pushes the kernless tightening about as far as it can go before pairs start to collide.
+- **T**: every non-excluded glyph has its advance shortened by 90 units and its outline shifted −45 (symmetric tightening). Space 847 → 560.
+- **UT**: same idea, −150 units and space 847 → 480. Pushes the kernless tightening about as far as it can go before pairs start to collide.
 
 Uppercase tightening is safe in both T and UT because there's no kerning to stack with. Both variants preserve upstream's kernless design intent and only change metrics.
 
-For consistency across the family, kerning is also stripped from the Italic and Bold Italic cuts (upstream v0.99 ships them kerned, but T/UT are explicitly a kernless design). The `fi` and `fl` ligature substitutions are also disabled in all four cuts — the `liga` GSUB feature is cleared so typed `fi`/`fl` sequences render as separate glyphs.
+**Exempt glyphs.** Digits and punctuation (Unicode categories `N*` and `P*`) are excluded from the advance-shrinking pass and keep their upstream metrics and outline positions. Because punctuation is in the skip set, it also stays upright inside the slanted italic body.
 
-In the Italic and Bold Italic cuts, the quote glyphs (`"` `'` and their curly/low variants) are skewed −12° and padded by 120 units of advance so they lean against the italic body slant and don't crowd adjacent letters.
+**Leading space before punctuation.** Period, comma, colon, semicolon, exclam, question, and ellipsis get 120 units of extra *leading* whitespace (outline shifted right, advance grown by the same amount) so they don't hug the preceding word.
+
+**Synthesized italics.** Italic and Bold Italic are produced from the Regular and Bold sources by applying a 12° horizontal shear during the same pen-based pass that does the tightening. The `head`/`OS/2`/`post` italic flags are set and the subfamily name records are rewritten accordingly. The upstream v0.99 Italic and BoldItalic OTFs are not consulted.
+
+**Quote padding.** In the Italic and Bold Italic cuts, quote glyphs (`"` `'` and their curly/low variants) are sheared with the body and padded by 60 units of advance (half on each side) so quoted passages breathe.
+
+Kerning is stripped from every cut (`kern` table deleted, GPOS PairPos lookups removed) — T/UT are explicitly a kernless design. The `fi`/`fl` ligature substitutions (`liga`/`dlig`/`rlig`) are also disabled so typed `fi`/`fl` render as separate glyphs.
+
+Note: because the outline-shifting pass re-draws every glyph via the pen interface (upstream CharStrings delegate their outlines to shared subroutines, so a bytecode patch is a no-op), subroutine sharing is lost and the T/UT OTFs are ~16% larger than the upstream file.
 
 ## Findings / recommendation
 
