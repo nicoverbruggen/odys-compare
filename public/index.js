@@ -39,7 +39,7 @@ const descriptions = {
     body: 'The same idea as T, pushed further: −150 units off every glyph\'s advance (outlines shifted left by 75 for symmetric tightening) and the space narrowed from 847 → 480 (~43% tighter). Digits and punctuation are <b>exempt</b> from the tightening, and sentence-ending punctuation gets extra leading whitespace, matching T. Italic and Bold Italic are <b>synthesized</b> by shearing the Regular and Bold sources 12° — no upstream italic used. Still kernless, and <code>fi</code>/<code>fl</code> ligature substitutions disabled across all four styles. Useful as the extreme end of the tightening spectrum — A is untouched upstream, T is moderately tight, UT pushes metrics about as far as they can go before pairs start to collide.'
   }
 };
-const order = ['A','B','T','UT','M','MT'];
+const order = ['UT','T','A','B','M','MT'];
 
 function setFont(which) {
   order.forEach(k => {
@@ -52,11 +52,43 @@ function setFont(which) {
 }
 
 order.forEach(k => btns[k].onclick = () => setFont(k));
-setFont('A');
+setFont('UT');
+
+const chapterSel = document.getElementById('chapter');
+const prevBtn = document.getElementById('prevCh');
+const nextBtn = document.getElementById('nextCh');
+let chapterIdx = 0;
+
+BOOK.forEach((ch, i) => {
+  const opt = document.createElement('option');
+  opt.value = i;
+  opt.textContent = ch.title;
+  chapterSel.appendChild(opt);
+});
+
+function setChapter(i) {
+  chapterIdx = Math.max(0, Math.min(BOOK.length - 1, i));
+  const ch = BOOK[chapterIdx];
+  reader.className = reader.className.split(/\s+/).filter(c => c !== 'appendix-page').join(' ');
+  if (ch.class) reader.classList.add(ch.class);
+  reader.innerHTML = ch.html;
+  chapterSel.value = chapterIdx;
+  prevBtn.disabled = chapterIdx === 0;
+  nextBtn.disabled = chapterIdx === BOOK.length - 1;
+  reader.scrollIntoView({ behavior: 'instant', block: 'start' });
+}
+
+chapterSel.onchange = () => setChapter(parseInt(chapterSel.value, 10));
+prevBtn.onclick = () => setChapter(chapterIdx - 1);
+nextBtn.onclick = () => setChapter(chapterIdx + 1);
+setChapter(0);
 
 document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
   const cur = order.find(k => reader.classList.contains(k)) || 'A';
   if (e.key === ' ') { e.preventDefault(); setFont(order[(order.indexOf(cur)+1) % order.length]); }
+  if (e.key === 'ArrowLeft')  setChapter(chapterIdx - 1);
+  if (e.key === 'ArrowRight') setChapter(chapterIdx + 1);
   const idx = '1234567'.indexOf(e.key);
   if (idx >= 0 && idx < order.length) setFont(order[idx]);
 });

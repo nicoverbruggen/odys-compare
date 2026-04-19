@@ -82,6 +82,31 @@
   h2 { font-size: 22px; margin: 32px 0 12px; font-weight: 700; }
   p { margin: 0 0 1em; text-align: left; hyphens: auto; }
   .reader.justify p { text-align: justify; }
+  .chapter-num .num { display: inline-block; margin-left: 0.35em; }
+  .appendix-page h2 { border-top: 2px solid #d8cfb8; padding-top: 0.7em; margin-top: 2em; }
+  .appendix-page h3 { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; margin: 1.2em 0 0.35em; color: var(--muted); }
+  .appendix-page .pair-test,
+  .appendix-page .kern-grid,
+  .appendix-page blockquote,
+  .appendix-page .poem,
+  .appendix-page .dialogue-sample { padding: 0.8em 0.9em; border: 1px solid #d8cfb8; border-left-width: 3px; margin: 0.6em 0 1.2em; }
+  .appendix-page blockquote { font-style: normal; }
+  .poem .line { margin: 0; text-indent: 0; }
+  .poem-title { font-style: italic; font-weight: normal; font-size: 1em; margin: 1.6em 0 .6em; }
+  .chapter-nav {
+    max-width: 720px; margin: 16px auto 0; padding: 14px 72px;
+    display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    color: #d6ccb6; font: 14px/1.3 system-ui, sans-serif;
+  }
+  .chapter-nav button {
+    font: inherit; background: #3a342d; color: #e8dfcd;
+    border: 1px solid #554c40; border-radius: 6px;
+    padding: 8px 14px; cursor: pointer;
+  }
+  .chapter-nav button:hover:not(:disabled) { background: #8a5a3b; border-color: #b57a55; color: #fff; }
+  .chapter-nav button:disabled { opacity: .4; cursor: default; }
+  .chapter-nav select { background: #2a2622; color: #e8dfcd; border: 1px solid #554c40; border-radius: 4px; padding: 4px 6px; font: inherit; }
+  .chapter-nav label { display: inline-flex; align-items: center; gap: 8px; }
   .reader.body-italic p     { font-style: italic; }
   .reader.body-bold p       { font-weight: 700; }
   .reader.body-bolditalic p { font-style: italic; font-weight: 700; }
@@ -123,11 +148,13 @@
 
 <div class="toolbar">
   <div class="toolbar-row">
+    <span class="group-label">Tight</span>
+    <button id="btnUT" class="active">UT ★<span class="kbd">[1]</span></button>
+    <button id="btnT">T<span class="kbd">[2]</span></button>
+    <div class="sep"></div>
     <span class="group-label">Classic</span>
-    <button id="btnA" class="active">A<span class="kbd">[1]</span></button>
-    <button id="btnB">B<span class="kbd">[2]</span></button>
-    <button id="btnT">T<span class="kbd">[3]</span></button>
-    <button id="btnUT">UT ★<span class="kbd">[4]</span></button>
+    <button id="btnA">A<span class="kbd">[3]</span></button>
+    <button id="btnB">B<span class="kbd">[4]</span></button>
     <div class="sep"></div>
     <span class="group-label">Mixed</span>
     <button id="btnM">M<span class="kbd">[5]</span></button>
@@ -150,109 +177,19 @@
 
 <div class="description" id="desc"></div>
 
-<article class="reader A" id="reader">
-  <div class="chapter-num">Chapter One</div>
-  <h1>The Type Tester and the Twilight Voyage</h1>
+<article class="reader A" id="reader"></article>
 
-  <p class="lead">Tomorrow, Tanya thought, would be the day she finally quit the typewriter factory. She walked between the rows of machines — AVATAR, TITAN, YETI — and wondered why the letterforms had always felt wrong. Too tight. Too eager to touch.</p>
-
-  <p>She had joined in the autumn of 1987, just before the Voyager probe slipped past Neptune. Back then, every keystroke was a small act of violence: the hammer, the ribbon, the page. Now, thirty-odd years on, the office hummed with laser printers and the old Adler No. 7 sat in the corner like a patient dog.</p>
-
-  <p>Her supervisor, Mr. Trevelyan, kept a cracked mug on his desk that read "The quick brown fox jumps over the lazy dog" — a pangram printed in a typeface so aggressively kerned that the fox appeared to be mounting the jumps. Tanya had once suggested, politely, that he replace it. He had not spoken to her for a week.</p>
-
-  <blockquote>"Type is a voice," he had told her on her first day, "and every voice needs to breathe. But some voices want to whisper into each other's ears."</blockquote>
-
-  <p>It was a Thursday. The rain came sideways across the car park. Tanya walked to her desk carrying a slim manuscript — Waves on the Water, by a poet named Yvette — and a resolve she had been building for months.</p>
-
-  <h2>A Test for Weary Eyes</h2>
-
-  <p>Consider the following pairs, each of which had caused her small, specific griefs over the years:</p>
-
-  <div class="pair-test">
-    <span>Tag</span><span>Type</span><span>Tune</span><span>AT-AT</span><span>quiT</span>
-    <span>Water</span><span>Voyage</span><span>AVATAR</span><span>Yesterday</span>
-    <span>Wavy</span><span>AWAY</span><span>To. Va. Ye.</span>
-  </div>
-
-  <p>Some of those pairs, in certain typefaces, collided like commuters at a turnstile. Others, in better typefaces, kept a courteous distance. Tanya believed — and had believed for some time — that the purpose of a letter was to be itself, unambiguously, before it was anything else.</p>
-
-  <p>She opened the manuscript and began to read.</p>
-
-  <p>"In the evening, by the seawall, we watched the ferry cross toward the far shore. The gulls were loud. The water was not."</p>
-
-  <p>The words did not fight each other. The y did not lean under the w. The T stood like a flagpole, and everything that followed it stood a polite distance away, as if waiting to be introduced. It was, she realised, the first page she had read all year without her eyes tripping.</p>
-
-  <p>She closed the manuscript. She walked to Mr. Trevelyan's office. She did not, in the end, quit — but she did, very quietly, replace the mug.</p>
-
-  <h2>Kerning Pair Reference</h2>
-
-  <p>Common pairs where kerning matters most. In a properly kerned font, the pairs below should sit visually balanced; in a kernless font, the uppercase pairs in particular will show obvious gaps.</p>
-
-  <div class="kern-grid">
-    <div class="kern-group"><div class="kern-label">Capital + lowercase (diagonal)</div>
-      <div class="kern-row">Ta Te Ti To Tu Ty Tw</div>
-      <div class="kern-row">Va Ve Vo Vu Vy</div>
-      <div class="kern-row">Wa We Wi Wo Wr Wy</div>
-      <div class="kern-row">Ya Ye Yo Yu</div>
-      <div class="kern-row">Pa Pe Po</div>
-      <div class="kern-row">Fa Fe Fi Fo</div>
-    </div>
-
-    <div class="kern-group"><div class="kern-label">Capital + capital</div>
-      <div class="kern-row">AT AV AW AY</div>
-      <div class="kern-row">TA TV TW TY</div>
-      <div class="kern-row">VA VV VW VY</div>
-      <div class="kern-row">LT LV LW LY</div>
-      <div class="kern-row">FA PA RA</div>
-    </div>
-
-    <div class="kern-group"><div class="kern-label">Lowercase + lowercase</div>
-      <div class="kern-row">av aw ay</div>
-      <div class="kern-row">va vo vy</div>
-      <div class="kern-row">we wa wo</div>
-      <div class="kern-row">ye yo</div>
-      <div class="kern-row">rn rv ry</div>
-      <div class="kern-row">fi fl ff ffi ffl</div>
-    </div>
-
-    <div class="kern-group"><div class="kern-label">Punctuation + letter</div>
-      <div class="kern-row">T. T, V. V, W. W, Y. Y,</div>
-      <div class="kern-row">"A "T "V "W "Y</div>
-      <div class="kern-row">A' L' P' R' T' V' W'</div>
-      <div class="kern-row">(A (T (V (W (Y</div>
-      <div class="kern-row">-T -V -W -Y f/ /f</div>
-    </div>
-
-    <div class="kern-group"><div class="kern-label">Common words</div>
-      <div class="kern-row">The Type Tune Today Twenty</div>
-      <div class="kern-row">Voyage Victor Villa Valley</div>
-      <div class="kern-row">Water Wave Wyoming Worry</div>
-      <div class="kern-row">Yesterday Young Yellow</div>
-      <div class="kern-row">Avatar Ava Axiom Always</div>
-    </div>
-
-    <div class="kern-group"><div class="kern-label">Digits + punctuation</div>
-      <div class="kern-row">1,000 2,500 3.14 7,777</div>
-      <div class="kern-row">10 11 14 17 27 47 74</div>
-      <div class="kern-row">T7 Y1 V4 W2</div>
-    </div>
-
-    <div class="kern-group"><div class="kern-label">Pangram stress test</div>
-      <div class="kern-row">The quick brown fox jumps over the lazy dog.</div>
-      <div class="kern-row">Pack my box with five dozen liquor jugs.</div>
-      <div class="kern-row">TAXI AVAILABLE — YAWN, VAN, WAVY</div>
-    </div>
-  </div>
-
-  <div class="footer-meta">— end of sample —<br>
-    Toggle variants above, or press <b>space</b>. Try the size and line-height sliders.
-  </div>
-</article>
+<nav class="chapter-nav" id="chapterNav">
+  <button id="prevCh" title="Previous chapter">&larr; Previous</button>
+  <label>chapter <select id="chapter"></select></label>
+  <button id="nextCh" title="Next chapter">Next &rarr;</button>
+</nav>
 
 <footer class="site-footer">
   <p>An experimental comparison to determine which version of OpenDyslexic to include in my curated font collection. Learn more about the curated collection and the rationale behind modifying OFL fonts at <a href="https://nicoverbruggen.be/fonts">nicoverbruggen.be/fonts</a>.</p>
 </footer>
 
+<script src="book.js"></script>
 <script src="index.js"></script>
 </body>
 </html>
