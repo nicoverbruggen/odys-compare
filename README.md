@@ -22,14 +22,14 @@ So the kerning wasn't removed as a blanket decision — Italic and Bold Italic k
 
 ## What this page does
 
-Serves a sepia, ~720px-wide e-reader mockup with a chapter of sample text and a kerning-pair reference grid. Six font variants can be toggled live via buttons or keys `1`–`6`, grouped into **Classic** (keys 1–4) and **Mixed** (keys 5–6):
+Serves a sepia, ~720px-wide e-reader mockup with a chapter of sample text and a kerning-pair reference grid. Six font variants can be toggled live via buttons or keys `1`–`6`, grouped into **Tight** (keys 1–2), **Classic** (keys 3–4), and **Mixed** (keys 5–6):
 
 | # | Variant | What it is |
 | - | ------- | ---------- |
-| 1 | **OpenDyslexic A** | Upstream v0.99 as shipped (kernless Regular). |
-| 2 | **OpenDyslexic B** | Older v0.92, included for reference. Full 3760-pair kerning. |
-| 3 | **OpenDyslexic T** | Upstream v0.99 Regular & Bold tightened uniformly (−90u advance, space 847 → 560). Digits and punctuation are exempt and keep upstream metrics; period/comma/colon/etc. get extra *leading* whitespace. Italic and Bold Italic are synthesized by shearing Regular/Bold 12°. |
-| 4 | **OpenDyslexic UT** | Same recipe as T, pushed further: −150u advance, space 847 → 480. |
+| 1 | **OpenDyslexic UT** | Upstream v0.99 Regular & Bold tightened aggressively (−150u advance, space 847 → 480). Digits and punctuation are exempt and keep upstream metrics; sentence-ending punctuation gets extra *leading* whitespace. Italic and Bold Italic are synthesized by shearing Regular/Bold 12°. |
+| 2 | **OpenDyslexic T** | Upstream v0.99 Regular & Bold tightened uniformly (−90u advance, space 847 → 560). Digits and punctuation are exempt and keep upstream metrics; sentence-ending punctuation gets extra *leading* whitespace. Italic and Bold Italic are synthesized by shearing Regular/Bold 12°. |
+| 3 | **OpenDyslexic A** | Upstream v0.99 as shipped (kernless Regular). |
+| 4 | **OpenDyslexic B** | Older v0.92, included for reference. Full 3760-pair kerning. |
 | 5 | **OpenDyslexic M** | Clean four-style rebuild: v0.99 Regular & Bold with kerning transplanted from v0.92; Italic & Bold Italic taken from v0.99 as-is. |
 | 6 | **OpenDyslexic MT** | M with tightened metrics: −60u global advance (uppercase spared so kerned uppercase pairs don't over-collapse), space narrowed 847 → 620. |
 
@@ -99,6 +99,10 @@ For `ebook-fonts` (justified e-reader columns):
 - **B** (older v0.92) reads cleanly but uses older glyph shapes.
 - **M** matches B's typographic color with the newer v0.99 glyph refinements. Effectively a clean upgrade over B.
 - **MT**, **T**, and **UT** are the three "tighter spacing" answers, differing in philosophy: MT keeps and respects the restored kerning; T and UT keep upstream's kernless intent and just shorten metrics, with UT being the more aggressive cut.
+
+## Kobo Font Fix
+
+If you generate Kobo `KF` versions of these fonts with `kobo-font-fix`, use a line-height percentage of `10` rather than `20`.
 
 ## Credits & license
 
